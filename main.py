@@ -1,4 +1,25 @@
 import customtkinter as ctk
+import os
+import requests
+from dotenv import load_dotenv
+load_dotenv()
+
+
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
+BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+
+def get_city():
+    city = entry_location.get()
+    params = {
+        "q": city,
+        "appid": API_KEY,
+        "units": "metric"
+    }
+    r = requests.get(BASE_URL, params=params, timeout=10)
+    r.raise_for_status()
+    data = r.json()
+    data1=data["main"]["temp"]
+    label_temp.configure(text=data1)
 
 app = ctk.CTk()
 app.title("weather-app")
@@ -20,7 +41,7 @@ entry_location.pack()
 buttons_frame = ctk.CTkFrame(search_frame, fg_color="transparent")
 buttons_frame.pack()
 
-button_search = ctk.CTkButton(buttons_frame, text="Search", height=30)
+button_search = ctk.CTkButton(buttons_frame, text="Search", height=30, command=get_city)
 button_search.pack(side="left")
 
 button_location = ctk.CTkButton(buttons_frame, text="Use current location", height=30)
