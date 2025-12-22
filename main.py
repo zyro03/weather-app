@@ -36,5 +36,4 @@ label_temp.pack()
 label_city = ctk.CTkLabel(result_frame, text="--*C")
 label_city.pack()
 
-
 app.mainloop()
