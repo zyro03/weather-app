@@ -6,6 +6,22 @@ from PIL import Image
 from io import BytesIO
 load_dotenv()
 
+ICON_SIZE = (50, 50)
+
+icon_feels = ctk.CTkImage(
+    light_image=Image.open("icon_feels.png"),
+    size=ICON_SIZE
+)
+
+icon_humidity = ctk.CTkImage(
+    light_image=Image.open("icon_feels.png"),
+    size=ICON_SIZE
+)
+
+icon_wind = ctk.CTkImage(
+    light_image=Image.open("icon_feels.png"),
+    size=ICON_SIZE
+)
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 URL = "https://api.openweathermap.org/data/2.5/weather"
@@ -37,9 +53,8 @@ def get_weather(city):
         wind = data['wind']['speed']
         label_temp.configure(text=f"{round(temp,1)} °C")
         label_desc.configure(text=descr)
-        card_feels.configure(text=feels)
-        card_humidity.configure(text=humidity)
-        card_wind.configure(text=wind)
+        card_feels_value.configure(text=feels)
+
 
 
     except:
@@ -81,7 +96,7 @@ button_search.pack(side="left")
 button_location = ctk.CTkButton(buttons_frame, text="Use current location", height=30)
 button_location.pack(side="left")
 
-result_frame = ctk.CTkFrame(app, width=450, height=450, corner_radius=20)
+result_frame = ctk.CTkFrame(app, width=540, height=450, corner_radius=20)
 
 result_frame.pack_propagate(False)
 
@@ -95,22 +110,77 @@ label_desc = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=15, weigh
 label_desc.pack()
 
 label_city = ctk.CTkLabel(result_frame, text="")
-label_city.pack()
+label_city.pack(pady=(0,30))
 
 details_frame = ctk.CTkFrame(result_frame, fg_color="transparent")
 details_frame.pack()
 
-card_feels = ctk.CTkLabel(details_frame, width = 120, height=80, text="")
+card_feels = ctk.CTkFrame(details_frame, width=180, height=90)
 card_feels.pack(side="left")
 card_feels.pack_propagate(False)
 
-card_humidity = ctk.CTkLabel(details_frame, width = 120, height=80, text="")
+row = ctk.CTkFrame(card_feels, fg_color="transparent")
+row.pack()
+
+card_feels_icon = ctk.CTkLabel(row, image=icon_feels, text="")
+card_feels_icon.pack(side="left")
+
+text_col = ctk.CTkFrame(row, fg_color="transparent")
+text_col.pack(side="left")
+
+card_feels_title = ctk.CTkLabel(
+    text_col,
+    text="Feels like",
+)
+card_feels_title.pack(anchor="w")
+
+card_feels_value = ctk.CTkLabel(
+    text_col,
+    text="",
+)
+card_feels_value.pack(anchor="w")
+
+
+card_humidity = ctk.CTkFrame(details_frame, width=180, height=90)
 card_humidity.pack(side="left")
 card_humidity.pack_propagate(False)
 
-card_wind = ctk.CTkLabel(details_frame, width = 120, height=80, text="")
+row_humidity = ctk.CTkFrame(card_humidity, fg_color="transparent")
+row_humidity.pack()
+
+card_humidity_icon = ctk.CTkLabel(row_humidity, image=icon_humidity, text="")
+card_humidity_icon.pack(side="left")
+
+text_col_humidity = ctk.CTkFrame(row_humidity, fg_color="transparent")
+text_col_humidity.pack(side="left")
+
+card_humidity_title = ctk.CTkLabel(text_col_humidity, text="Humidity")
+card_humidity_title.pack(anchor="w")
+
+card_humidity_value = ctk.CTkLabel(text_col_humidity, text="")
+card_humidity_value.pack(anchor="w")
+
+
+card_wind = ctk.CTkFrame(details_frame, width=180, height=90)
 card_wind.pack(side="left")
 card_wind.pack_propagate(False)
 
+row_wind = ctk.CTkFrame(card_wind, fg_color="transparent")
+row_wind.pack()
 
-app.mainloop()
+card_wind_icon = ctk.CTkLabel(row_wind, image=icon_wind, text="")
+card_wind_icon.pack(side="left")
+
+text_col_wind = ctk.CTkFrame(row_wind, fg_color="transparent")
+text_col_wind.pack(side="left")
+
+card_wind_title = ctk.CTkLabel(text_col_wind, text="Wind")
+card_wind_title.pack(anchor="w")
+
+card_wind_value = ctk.CTkLabel(text_col_wind, text="")
+card_wind_value.pack(anchor="w")
+
+
+
+
+app.mainloop() 
