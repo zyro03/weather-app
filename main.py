@@ -6,20 +6,34 @@ load_dotenv()
 
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
-BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+URL = "https://api.openweathermap.org/data/2.5/weather"
+
+def get_weather(city):
+    try:
+        params = {
+            "q":city,
+            "appid":API_KEY,
+            "units":"metric"
+            }
+        r = requests.get(URL, params=params, timeout=8)
+        r.raise_for_status()
+        data = r.json()
+        temp = data['main']['temp']
+        label_temp.configure(text=temp)
+    except:
+        print("Blad")
 
 def get_city():
-    city = entry_location.get()
-    params = {
-        "q": city,
-        "appid": API_KEY,
-        "units": "metric"
-    }
-    r = requests.get(BASE_URL, params=params, timeout=10)
-    r.raise_for_status()
-    data = r.json()
-    data1=data["main"]["temp"]
-    label_temp.configure(text=data1)
+    city=entry_location.get()
+    label_city.configure(text=city)
+    if not city:
+        label_temp.configure(text="Enter city")
+        return
+    get_weather(city)
+    
+
+
+    
 
 app = ctk.CTk()
 app.title("weather-app")
@@ -51,10 +65,10 @@ result_frame = ctk.CTkFrame(app, width=450, height=450, corner_radius=20)
 result_frame.pack(pady=30)
 result_frame.pack_propagate(False)
 
-label_temp = ctk.CTkLabel(result_frame, text="--*C")
+label_temp = ctk.CTkLabel(result_frame, text="")
 label_temp.pack()
 
-label_city = ctk.CTkLabel(result_frame, text="--*C")
+label_city = ctk.CTkLabel(result_frame, text="")
 label_city.pack()
 
 app.mainloop()
