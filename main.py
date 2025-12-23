@@ -22,10 +22,11 @@ def get_weather(city):
         data = r.json()
        
         icon_code = data["weather"][0]["icon"]
-        icon_url = f"https://openweathermap.org/img/wn/{icon_code}@2x.png"
-        img_data = requests.get(icon_url).content
-        img = Image.open(BytesIO(img_data))
-        icon_image = ctk.CTkImage(light_image=img, size =(120,120))
+        icon_url = f"https://openweathermap.org/img/wn/{icon_code}.png"
+        
+        img = Image.open(BytesIO(requests.get(icon_url).content))
+        icon_image = ctk.CTkImage(light_image=img, size=(120,120))
+
         label_icon.configure(image=icon_image)
         label_icon.image = icon_image
 
