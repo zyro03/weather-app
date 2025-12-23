@@ -14,12 +14,12 @@ icon_feels = ctk.CTkImage(
 )
 
 icon_humidity = ctk.CTkImage(
-    light_image=Image.open("icon_feels.png"),
+    light_image=Image.open("icon_humidity.png"),
     size=ICON_SIZE
 )
 
 icon_wind = ctk.CTkImage(
-    light_image=Image.open("icon_feels.png"),
+    light_image=Image.open("icon_wind.png"),
     size=ICON_SIZE
 )
 
@@ -53,8 +53,10 @@ def get_weather(city):
         wind = data['wind']['speed']
         label_temp.configure(text=f"{round(temp,1)} °C")
         label_desc.configure(text=descr)
-        card_feels_value.configure(text=feels)
-
+        
+        card_feels_value.configure(text=f"{round(feels,1)} °C")
+        card_humidity_value.configure(text=f"{humidity} %")
+        card_wind_value.configure(text=f"{round(wind,1)} km/h")
 
 
     except:
@@ -96,7 +98,7 @@ button_search.pack(side="left")
 button_location = ctk.CTkButton(buttons_frame, text="Use current location", height=30)
 button_location.pack(side="left")
 
-result_frame = ctk.CTkFrame(app, width=540, height=450, corner_radius=20)
+result_frame = ctk.CTkFrame(app, width=540, height=350, corner_radius=20)
 
 result_frame.pack_propagate(False)
 
@@ -109,7 +111,7 @@ label_temp.pack()
 label_desc = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=15, weight="bold"))
 label_desc.pack()
 
-label_city = ctk.CTkLabel(result_frame, text="")
+label_city = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=15, weight="bold"))
 label_city.pack(pady=(0,30))
 
 details_frame = ctk.CTkFrame(result_frame, fg_color="transparent")
@@ -130,7 +132,7 @@ text_col.pack(side="left")
 
 card_feels_title = ctk.CTkLabel(
     text_col,
-    text="Feels like",
+    text="Feels like",font=ctk.CTkFont(size=15, weight="bold")
 )
 card_feels_title.pack(anchor="w")
 
@@ -154,7 +156,7 @@ card_humidity_icon.pack(side="left")
 text_col_humidity = ctk.CTkFrame(row_humidity, fg_color="transparent")
 text_col_humidity.pack(side="left")
 
-card_humidity_title = ctk.CTkLabel(text_col_humidity, text="Humidity")
+card_humidity_title = ctk.CTkLabel(text_col_humidity, text="Humidity",font=ctk.CTkFont(size=15, weight="bold"))
 card_humidity_title.pack(anchor="w")
 
 card_humidity_value = ctk.CTkLabel(text_col_humidity, text="")
@@ -174,7 +176,7 @@ card_wind_icon.pack(side="left")
 text_col_wind = ctk.CTkFrame(row_wind, fg_color="transparent")
 text_col_wind.pack(side="left")
 
-card_wind_title = ctk.CTkLabel(text_col_wind, text="Wind")
+card_wind_title = ctk.CTkLabel(text_col_wind, text="Wind",font=ctk.CTkFont(size=15, weight="bold"))
 card_wind_title.pack(anchor="w")
 
 card_wind_value = ctk.CTkLabel(text_col_wind, text="")
