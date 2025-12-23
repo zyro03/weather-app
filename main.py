@@ -77,7 +77,7 @@ app.title("weather-app")
 app.geometry("800x600")
 
 title = ctk.CTkLabel(app, text="What's the weather like today?", font=ctk.CTkFont(size=22, weight="bold"))
-title.pack()
+title.pack(pady=10)
 
 search_frame = ctk.CTkFrame(app, width=450, height=120, corner_radius=20)
 search_frame.pack()
@@ -90,13 +90,13 @@ entry_location = ctk.CTkEntry(search_frame, placeholder_text="Enter city", heigh
 entry_location.pack()
 
 buttons_frame = ctk.CTkFrame(search_frame, fg_color="transparent")
-buttons_frame.pack()
+buttons_frame.pack(pady=15)
 
 button_search = ctk.CTkButton(buttons_frame, text="Search", height=30, command=get_city)
-button_search.pack(side="left")
+button_search.pack(side="left", padx=10)
 
 button_location = ctk.CTkButton(buttons_frame, text="Use current location", height=30)
-button_location.pack(side="left")
+button_location.pack(side="left", padx=10)
 
 result_frame = ctk.CTkFrame(app, width=540, height=350, corner_radius=20)
 
@@ -108,7 +108,7 @@ label_icon.pack()
 label_temp = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=30, weight="bold"))
 label_temp.pack()
 
-label_desc = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=15, weight="bold"))
+label_desc = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=20, weight="bold"))
 label_desc.pack()
 
 label_city = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=15, weight="bold"))
