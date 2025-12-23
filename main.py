@@ -2,6 +2,8 @@ import customtkinter as ctk
 import os
 import requests
 from dotenv import load_dotenv
+from PIL import Image
+from io import BytesIO
 load_dotenv()
 
 
@@ -18,21 +20,29 @@ def get_weather(city):
         r = requests.get(URL, params=params, timeout=8)
         r.raise_for_status()
         data = r.json()
+       
+        icon_code = data["weather"][0]["icon"]
+        icon_url = f"https://openweathermap.org/img/wn/{icon_code}@2x.png"
+        img_data = requests.get(icon_url).content
+        img = Image.open(BytesIO(img_data))
+        icon_image = ctk.CTkImage(light_image=img, size =(120,120))
+        label_icon.configure(image=icon_image)
+        label_icon.image = icon_image
+
         temp = data['main']['temp']
-        label_temp.configure(text=temp)
+        descr = data['weather'][0]['description']
+        label_temp.configure(text=f"{round(temp,1)} °C")
+        label_desc.configure(text=descr)
     except:
         print("Blad")
 
 def get_city():
     city=entry_location.get()
-    label_city.configure(text=city)
+    label_city.configure(text=city.capitalize())
     if not city:
         label_temp.configure(text="Enter city")
         return
     get_weather(city)
-    
-
-
     
 
 app = ctk.CTk()
@@ -65,8 +75,14 @@ result_frame = ctk.CTkFrame(app, width=450, height=450, corner_radius=20)
 result_frame.pack(pady=30)
 result_frame.pack_propagate(False)
 
-label_temp = ctk.CTkLabel(result_frame, text="")
+label_icon = ctk.CTkLabel(result_frame, text="")
+label_icon.pack()
+
+label_temp = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=30, weight="bold"))
 label_temp.pack()
+
+label_desc = ctk.CTkLabel(result_frame, text="", font=ctk.CTkFont(size=15, weight="bold"))
+label_desc.pack()
 
 label_city = ctk.CTkLabel(result_frame, text="")
 label_city.pack()
