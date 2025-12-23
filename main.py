@@ -32,8 +32,16 @@ def get_weather(city):
 
         temp = data['main']['temp']
         descr = data['weather'][0]['description']
+        feels = data['main']['feels_like']
+        humidity = data['main']['humidity']
+        wind = data['wind']['speed']
         label_temp.configure(text=f"{round(temp,1)} °C")
         label_desc.configure(text=descr)
+        card_feels.configure(text=feels)
+        card_humidity.configure(text=humidity)
+        card_wind.configure(text=wind)
+
+
     except:
         print("Blad")
 
@@ -43,6 +51,7 @@ def get_city():
     if not city:
         label_temp.configure(text="Enter city")
         return
+    result_frame.pack(pady=30)
     get_weather(city)
     
 
@@ -73,7 +82,7 @@ button_location = ctk.CTkButton(buttons_frame, text="Use current location", heig
 button_location.pack(side="left")
 
 result_frame = ctk.CTkFrame(app, width=450, height=450, corner_radius=20)
-result_frame.pack(pady=30)
+
 result_frame.pack_propagate(False)
 
 label_icon = ctk.CTkLabel(result_frame, text="")
@@ -87,5 +96,21 @@ label_desc.pack()
 
 label_city = ctk.CTkLabel(result_frame, text="")
 label_city.pack()
+
+details_frame = ctk.CTkFrame(result_frame, fg_color="transparent")
+details_frame.pack()
+
+card_feels = ctk.CTkLabel(details_frame, width = 120, height=80, text="")
+card_feels.pack(side="left")
+card_feels.pack_propagate(False)
+
+card_humidity = ctk.CTkLabel(details_frame, width = 120, height=80, text="")
+card_humidity.pack(side="left")
+card_humidity.pack_propagate(False)
+
+card_wind = ctk.CTkLabel(details_frame, width = 120, height=80, text="")
+card_wind.pack(side="left")
+card_wind.pack_propagate(False)
+
 
 app.mainloop()
